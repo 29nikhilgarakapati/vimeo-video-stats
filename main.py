@@ -1,3 +1,4 @@
+import argparse
 import os
 import pandas as pd
 import requests
@@ -17,13 +18,22 @@ from sqlalchemy.sql import text
 load_dotenv()
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
-start_date = datetime.now().strftime('%Y-%m-%d')
-end_date = str(date.today() + timedelta(days=1))
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--start_date', help='Start Date')
+parser.add_argument('--end_date', help='End Date')
+args = parser.parse_args()
+
+current_date = datetime.now().strftime('%Y-%m-%d')
+next_day_date = str(date.today() + timedelta(days=1))
 jwt_token = os.getenv('VIMEO_JWT_TOKEN')
 
 class VimeoAnalytics:
 
-    def __init__(self):
+    def __init__(self, start_date, end_date):
+
+        self.start_date = start_date
+        self.end_date = end_date
 
         self.serverdb = sqlalchemy.create_engine(
             sqlalchemy.engine.url.URL(
@@ -43,7 +53,7 @@ class VimeoAnalytics:
     
         try:
             vimeo_url = Constants.VIMEO_STATS_DOWNLOAD_URL.format(jwt_token=jwt_token, \
-                start_date=start_date ,end_date=end_date)
+                start_date=self.start_date ,end_date=self.end_date)
             with requests.Session() as session:
                 with session.get(vimeo_url) as response:
                     content = response.text
@@ -56,7 +66,7 @@ class VimeoAnalytics:
 
         # cleaning and renaming the columns
         vimeo_df = vimeo_df.dropna()
-        vimeo_df['date'] = start_date
+        vimeo_df['date'] = self.start_date
         vimeo_df[['uri','video_id']] = vimeo_df['uri'].str.split('/videos/',expand=True)
         vimeo_df = vimeo_df.rename(columns={
             'created_time': 'video_created_at'
@@ -101,5 +111,8 @@ class VimeoAnalytics:
 
 
 if __name__ == "__main__":
-    vimeo = VimeoAnalytics()
+    vimeo = VimeoAnalytics(
+        args.start_date if args.start_date else current_date,
+        args.end_date if args.end_date else next_day_date
+    )
     vimeo.get_video_stats()
