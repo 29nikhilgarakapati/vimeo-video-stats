@@ -1,0 +1,3 @@
+class Constants:
+
+    VIMEO_STATS_DOWNLOAD_URL="https://api.vimeo.com/export/csv?jwt_token={jwt_token}&export_uri=%2Fusers%2F104692952%2Fvideos%2Fstats%3Fstart_date%3D{start_date}%26end_date%3D{end_date}%26fields%3Dvideo.uri%252Cvideo.created_time%252Cvideo.pictures.sizes%252Cvideo.name%252Cplays%252Cloads%252Cfinishes%252Cdownloads%252Clikes%252Ccomments%252Cunique_viewers%252Cunique_loads%252Cwatched.mean_percent%252Cwatched.mean_seconds%252Cwatched.sum_seconds%26sort%3Dplays%26group_by%3Dvideo%26page%3D1%26per_page%3D15000%26csv%3Dtrue"
