@@ -3,7 +3,7 @@
 
 This automation would fetch the data from the video analytics section and push it to the database.
 
-Click here to download the table structure => [sql table structure]()
+Click here to download the table structure => [sql table structure](https://github.com/29nikhilgarakapati/vimeo-video-stats/blob/main/db_table/vimeo_video_stats.sql)
 
 ## Environment Variables
 

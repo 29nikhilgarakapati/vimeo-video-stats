@@ -38,11 +38,11 @@ class VimeoAnalytics:
         self.serverdb = sqlalchemy.create_engine(
             sqlalchemy.engine.url.URL(
                 drivername='mysql+pymysql',
-                username=os.getenv('TEST_MYSQL_USER'),
-                password=os.getenv('TEST_MYSQL_PASSWORD'),
-                database=os.getenv('TEST_MYSQL_DB'),
-                host=os.getenv('TEST_MYSQL_HOST'),
-                port=os.getenv('TEST_MYSQL_PORT')
+                username=os.getenv('MYSQL_USER'),
+                password=os.getenv('MYSQL_PASSWORD'),
+                database=os.getenv('MYSQL_DB'),
+                host=os.getenv('MYSQL_HOST'),
+                port=os.getenv('MYSQL_PORT')
                 # query={
                 #     'unix_socket': '/cloudsql/{}'.format(Constants.cloud_sql_connection_name)
                 # }
